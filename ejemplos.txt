@@ -1,0 +1,8 @@
+jhon == "jhon" && manolo >= 123213 && 23423 > 234
+
+jhon == "jhon" && manolo >= 123213 | 23423 > 234 && manolo >= '123213'
+
+for entero in 0..23 {
+    int jose = 1
+    jose = 2133
+}
