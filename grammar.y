@@ -8,7 +8,7 @@
 %token INT STRING BOOLEAN LONG FLOAT VAR CONST RETURN CHAR NAME SEPARATOR
 %token INT_VAL BOOLEAN_VAL LONG_VAL FLOAT_VAL STRING_VAL CHAR_VAL
 %token EQUAL SAME_PLUS SAME_MINUS SAME_PLUS_ONE SAME_MINUS_ONE DATA_TYPE_LINK
-%token MINUS PLUS PRODUCT MODULE DIVISION POW
+%token MINUS PLUS PRODUCT MODULE DIVISION POW PRINT
 %token COMPARATION NOT HIGHER LOWER OR AND HIGHER_OR_EQUAL LOWER_OR_EQUAL 
 %token OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_BRACKET CLOSE_BRACKET OPEN_CLASP CLOSE_CLASP
 %token FOR DO WHILE FUNCTION BREAK IN RANGE IF ELSE
@@ -107,19 +107,21 @@ body_sintaxis:
     | body_sentence
     | body_sintaxis body_sentence
 ;
-
+print_sintaxis: PRINT OPEN_PARENTHESIS data_value CLOSE_PARENTHESIS EOL
+;
 
 body_sentence: 
     | EOL 
     | declaration 
     | base_declaration 
     | base_re_asignation 
-    | for_sintaxis          {printf("for \n"); printf("> ");}            
+    | for_sintaxis                     
     | while_sintaxis 
     | do_while_sintaxis 
-    | if_sintaxis           {printf(">> if correcto !! \n"); printf("> ");}
+    | if_sintaxis           
     | return_sentence 
     | BREAK 
+    | print_sintaxis
     | error EOL		{ yyerrok;}
 ;
 data_type:  
@@ -150,14 +152,12 @@ function_arg_body:
     | function_arg_body SEPARATOR function_arg_body 
 ;
 
-for_sintaxis:FOR NAME IN INT_VAL RANGE INT_VAL OPEN_CLASP body_sintaxis CLOSE_CLASP{printf(">> for correcto !! \n"); printf("> ");};
-
-while_sintaxis: WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL  {printf(">> while correcto !! \n"); printf("> ");}
+for_sintaxis:FOR NAME IN INT_VAL RANGE INT_VAL OPEN_CLASP body_sintaxis CLOSE_CLASP                                         {printf(">> for correcto !! \n"); printf("> ");}
 ;
-
-do_while_sintaxis: DO OPEN_CLASP body_sintaxis CLOSE_CLASP WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS EOL {printf(">> do while correcto !! \n"); printf("> ");}
+while_sintaxis: WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL         {printf(">> while correcto !! \n"); printf("> ");}
 ;
-
+do_while_sintaxis: DO OPEN_CLASP body_sintaxis CLOSE_CLASP WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS EOL   {printf(">> do while correcto !! \n"); printf("> ");}
+;
 else_sintaxis: ELSE OPEN_CLASP body_sintaxis CLOSE_CLASP
     |   ELSE if_sintaxis
 ;

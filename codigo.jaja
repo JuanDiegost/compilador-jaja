@@ -1,7 +1,11 @@
+
+
 function guardar_persona(int:edad,str:nombre,char:genero){
 
 }
 
 function guardar_persona (int:edad,str:nombre,char:genero) -> str {
-
+    printline("hola mundo")
 }
+
+int m = 12 /^ 3
