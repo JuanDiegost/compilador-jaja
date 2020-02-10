@@ -116,6 +116,7 @@ body_sintaxis:
     | body_sintaxis body_sentence
 ;
 print_sintaxis: PRINT OPEN_PARENTHESIS data_value CLOSE_PARENTHESIS EOL
+    | PRINT OPEN_PARENTHESIS NAME CLOSE_PARENTHESIS EOL
 ;
 
 body_sentence: 

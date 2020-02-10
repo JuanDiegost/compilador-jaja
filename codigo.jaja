@@ -16,3 +16,4 @@ manolo = ma + manolo
 manolo = ma + "manolo"
 
 mmanolo =+ manolo
+mmanolo =+ "manolo"
