@@ -11,7 +11,7 @@
 %token MINUS PLUS PRODUCT MODULE DIVISION POW
 %token COMPARATION NOT HIGHER LOWER OR AND HIGHER_OR_EQUAL LOWER_OR_EQUAL
 %token OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_BRACKET CLOSE_BRACKET OPEN_CLASP CLOSE_CLASP
-%token FOR DO WHILE FUNCTION BREAK IN RANGE IF
+%token FOR DO WHILE FUNCTION BREAK IN RANGE IF ELSE
 %token EOL
 %%
 
@@ -27,11 +27,12 @@ input: declaration
      | input body_sentence
      | for_sintaxis
      | input for_sintaxis
+     | operation
      | RANGE                        {printf("<< range");}
 ;
 
-declaration: VAR base_declaration             {printf(">> Frase Correcta!! \n"); printf("> ");}
-     | CONST base_declaration           {printf(">> Frase Correcta!! \n"); printf("> ");}
+declaration: VAR base_declaration             {printf(">> Declaración Correcta!! \n"); printf("> ");}
+     | CONST base_declaration           {printf(">> Declaración Correcta!! \n"); printf("> ");}
 ;
 
 type_asignation: INT NAME                              
@@ -40,6 +41,20 @@ type_asignation: INT NAME
     | LONG NAME                             
     | FLOAT NAME                            
     | CHAR NAME                             
+;
+
+type_number: INT_VAL
+    | LONG_VAL
+    | FLOAT_VAL
+    | NAME
+;
+
+operation: type_number MINUS type_number
+    | type_number PLUS type_number {printf(">> Declaración Correcta!! \n"); printf("> ");}
+    | type_number PRODUCT type_number
+    | type_number MODULE type_number 
+    | type_number DIVISION type_number
+    | type_number POW type_number
 ;
 
 base_asignation: EQUAL
@@ -55,6 +70,9 @@ base_declaration: INT NAME base_asignation INT_VAL
     | LONG NAME base_asignation INT_VAL
     | FLOAT NAME base_asignation FLOAT_VAL
     | FLOAT NAME base_asignation INT_VAL
+    | INT NAME base_asignation operation
+    | LONG NAME base_asignation operation
+    | FLOAT NAME base_asignation operation
 ;
 
 base_re_asignation: NAME base_asignation INT_VAL
@@ -63,6 +81,7 @@ base_re_asignation: NAME base_asignation INT_VAL
     | NAME base_asignation LONG_VAL
     | NAME base_asignation FLOAT_VAL
     | NAME base_asignation CHAR_VAL
+    | NAME base_asignation operation
 ;
 
 base_condition: condition_option COMPARATION condition_option         
@@ -106,7 +125,7 @@ body_sentence:
     | for_sintaxis          {printf("for \n"); printf("> ");}            
     | while_sintaxis 
     | do_while_sintaxis 
-    | if_sintaxis 
+    | if_sintaxis           {printf(">> if correcto !! \n"); printf("> ");}
     | return_sentence 
     | BREAK 
     | error EOL		{ yyerrok;}
@@ -120,8 +139,14 @@ while_sintaxis: WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_
 do_while_sintaxis: DO OPEN_CLASP body_sintaxis CLOSE_CLASP WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS EOL {printf(">> do while correcto !! \n"); printf("> ");}
 ;
 
-if_sintaxis: IF OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL {printf(">> if correcto !! \n"); printf("> ");}
+else_sintaxis: ELSE OPEN_CLASP body_sintaxis CLOSE_CLASP
+    |   ELSE if_sintaxis
 ;
+
+if_sintaxis: IF OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP
+    |   if_sintaxis else_sintaxis
+;
+
 
 return_sentence: RETURN NAME
     | RETURN STRING_VAL
