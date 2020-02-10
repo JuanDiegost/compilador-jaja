@@ -44,15 +44,21 @@ type_asignation:
 type_number: INT_VAL
     | LONG_VAL
     | FLOAT_VAL
-    | NAME
 ;
 
-operation: type_number MINUS type_number
-    | type_number PLUS type_number {printf(">> Declaración Correcta!! \n"); printf("> ");}
-    | type_number PRODUCT type_number
-    | type_number MODULE type_number 
-    | type_number DIVISION type_number
-    | type_number POW type_number
+math_operation: PLUS
+    | MINUS
+    | PRODUCT
+    | MODULE
+    | DIVISION
+    | POW
+;
+
+operation: type_number math_operation type_number
+    | type_number math_operation NAME
+    | NAME math_operation NAME
+    | NAME math_operation data_value
+
 ;
 
 base_asignation: EQUAL
@@ -75,6 +81,7 @@ base_declaration: INT NAME base_asignation INT_VAL
 
 base_re_asignation: NAME base_asignation data_value
     | NAME base_asignation NAME
+    | NAME base_asignation operation
 ;
 
 base_condition: condition_option COMPARATION condition_option         

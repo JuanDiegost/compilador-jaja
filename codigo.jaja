@@ -10,4 +10,9 @@ function guardar_persona (int:edad,str:nombre,char:genero) -> str {
 
 int m = 12 /^ 3
 
-m = manolo
+manolo = 1 + 1
+manolo = ma + 'r'
+manolo = ma + manolo
+manolo = ma + "manolo"
+
+mmanolo =+ manolo
