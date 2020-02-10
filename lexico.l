@@ -13,7 +13,8 @@ function|FUNCTION				{return FUNCTION;}
 if|IF							{return IF;}
 else|ELSE                       {return ELSE;}
 break|BREAK						{return BREAK;}
-in|IN							{return IN;}    
+in|IN							{return IN;}
+printline|PRINTLINE             {return PRINT;}
 [=]								{return EQUAL;}//declaracion de asignadores
 [>][>]							{return RANGE;}
 [=][+]							{return SAME_PLUS;}

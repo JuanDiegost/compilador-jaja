@@ -74,6 +74,7 @@ base_declaration: INT NAME base_asignation INT_VAL
 ;
 
 base_re_asignation: NAME base_asignation data_value
+    | NAME base_asignation NAME
 ;
 
 base_condition: condition_option COMPARATION condition_option         
