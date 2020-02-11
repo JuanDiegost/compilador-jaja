@@ -1,12 +1,18 @@
-# compilador-jaja
+# Compilador Jaja
 
-Un sencillo compilador de codigo generado a medida
-ejecute 
+Un sencillo compilador de codigo generado a medida hecho con C Bison y Flex, para el curso de de Lenguajes Formales
+
+### Autores
+* Juan Diego Molina
+* Jhon Edison Rodríguez
+
+## Comandos
+
+Para compilar ejecute: 
+
 ```bash 
 ./build
 ``` 
-
-para recompilar el programa
 
 para evaluar codigo ejecute 
 ```bash 
