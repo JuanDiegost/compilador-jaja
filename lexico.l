@@ -27,6 +27,7 @@ in|IN							{return IN;}
 [%]								{return MODULE;}
 [/]								{return DIVISION;}
 [/][\^]							{return POW;}
+[\:]							{return DATA_TYPE_LINK;}
 
 [=][=]							{return COMPARATION;}//declaracion de los operadores logicos
 [!][=]							{return NOT;}
