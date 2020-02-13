@@ -4,8 +4,9 @@
 #include <stdio.h>
 %}
 %option noyywrap
-%option yylineno
+%option yylineno 
 %%
+[//](.*)                        {return EOL;}
 for|FOR							{return FOR;}//palabras reservadas del lenguaje
 do|DO							{return DO;}
 while|WHILE						{return WHILE;}
@@ -16,6 +17,7 @@ break|BREAK						{return BREAK;}
 in|IN							{return IN;}
 printline|PRINTLINE             {return PRINT;}
 [=]								{return EQUAL;}//declaracion de asignadores
+[\:]							{return DATA_TYPE_LINK;}
 [>][>]							{return RANGE;}
 [=][+]							{return SAME_PLUS;}
 [=][-]							{return SAME_MINUS;}
@@ -28,7 +30,6 @@ printline|PRINTLINE             {return PRINT;}
 [%]								{return MODULE;}
 [/]								{return DIVISION;}
 [/][\^]							{return POW;}
-[\:]							{return DATA_TYPE_LINK;}
 
 [=][=]							{return COMPARATION;}//declaracion de los operadores logicos
 [!][=]							{return NOT;}
@@ -71,7 +72,7 @@ true|false						{return BOOLEAN_VAL;}
 ([a-z]|[A-Z]|_){1,40}			{return NAME;}
 \n								{return EOL;}
 [ \t\n]							{/*Eliminar epacios en blanco*/}
-.		{printf("Error lexico en la linea %d\n",yylineno);}
+.		                        {printf("Error lexico en la linea %d\n",yylineno);}
 %%
 int main(int argc,char *argv[]){
     if((yyin = fopen(argv[1],"rt"))== NULL){

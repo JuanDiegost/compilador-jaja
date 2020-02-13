@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #define YYSTYPE char*
+#define YYERROR_VERBOSE 1
 %}
 
 %token INT STRING BOOLEAN LONG FLOAT VAR CONST RETURN CHAR NAME SEPARATOR
@@ -11,11 +12,12 @@
 %token MINUS PLUS PRODUCT MODULE DIVISION POW PRINT
 %token COMPARATION NOT HIGHER LOWER OR AND HIGHER_OR_EQUAL LOWER_OR_EQUAL 
 %token OPEN_PARENTHESIS CLOSE_PARENTHESIS OPEN_BRACKET CLOSE_BRACKET OPEN_CLASP CLOSE_CLASP
-%token FOR DO WHILE FUNCTION BREAK IN RANGE IF ELSE
+%token FOR DO WHILE FUNCTION BREAK IN RANGE IF ELSE 
 %token EOL
 %%
 
-input: declaration 
+input: EOL   
+     | declaration 
      | type_asignation
      | base_condition
      | complex_condition
@@ -30,18 +32,20 @@ input: declaration
      | function_sintaxis
      | input function_sintaxis
      | operation
-     | RANGE                        {printf("<< range");}
+     | error EOL		{ yyerrok;}
 ;
 
-declaration: VAR base_declaration             {printf(">> Declaración Correcta!! \n"); printf("> ");}
-     | CONST base_declaration           {printf(">> Declaración Correcta!! \n"); printf("> ");}
+declaration: array_declaration
+     | base_declaration 
+     | VAR base_declaration             
+     | CONST base_declaration           
 ;
 
 type_asignation: 
     | data_type NAME             
 ;
 
-type_number: INT_VAL
+number: INT_VAL
     | LONG_VAL
     | FLOAT_VAL
 ;
@@ -54,11 +58,14 @@ math_operation: PLUS
     | POW
 ;
 
-operation: type_number math_operation type_number
-    | type_number math_operation NAME
+operation: number math_operation number
+    | number math_operation NAME
     | NAME math_operation NAME
     | NAME math_operation data_value
 
+;
+
+default_asignation: EQUAL
 ;
 
 base_asignation: EQUAL
@@ -66,18 +73,31 @@ base_asignation: EQUAL
     | SAME_MINUS
 ;
 
-base_declaration: INT NAME base_asignation INT_VAL
-    | CHAR NAME base_asignation CHAR_VAL
-    | STRING NAME base_asignation STRING_VAL
-    | BOOLEAN NAME base_asignation BOOLEAN_VAL
-    | LONG NAME base_asignation LONG_VAL
-    | LONG NAME base_asignation INT_VAL
-    | FLOAT NAME base_asignation FLOAT_VAL
-    | FLOAT NAME base_asignation INT_VAL
-    | INT NAME base_asignation operation
-    | LONG NAME base_asignation operation
-    | FLOAT NAME base_asignation operation
+base_declaration: INT NAME default_asignation INT_VAL
+    | CHAR NAME default_asignation CHAR_VAL
+    | STRING NAME default_asignation STRING_VAL
+    | BOOLEAN NAME default_asignation BOOLEAN_VAL
+    | LONG NAME default_asignation LONG_VAL
+    | LONG NAME default_asignation INT_VAL
+    | FLOAT NAME default_asignation FLOAT_VAL
+    | FLOAT NAME default_asignation INT_VAL
+    | INT NAME default_asignation operation
+    | LONG NAME default_asignation operation
+    | FLOAT NAME default_asignation operation
+
 ;
+array_parameter: OPEN_BRACKET INT_VAL CLOSE_BRACKET    
+;
+
+array_declaration: NAME array_parameter default_asignation OPEN_CLASP array_body CLOSE_CLASP
+
+;
+
+array_body:
+
+;
+
+
 
 base_re_asignation: NAME base_asignation data_value
     | NAME base_asignation NAME
@@ -89,7 +109,7 @@ base_condition: condition_option COMPARATION condition_option
     | condition_option HIGHER condition_option              
     | condition_option LOWER condition_option               
     | condition_option HIGHER_OR_EQUAL condition_option     
-    | condition_option LOWER_OR_EQUAL condition_option      
+    | condition_option LOWER_OR_EQUAL condition_option  
 ;
 
 condition_option: EOL
@@ -107,7 +127,7 @@ complex_condition: base_condition
     | base_condition AND base_condition                                 
     | base_condition OR base_condition                                  
     | complex_condition AND complex_condition                           
-    | complex_condition OR complex_condition                            
+    | complex_condition OR complex_condition                          
 ;
 
 body_sintaxis: 
@@ -131,7 +151,6 @@ body_sentence:
     | return_sentence 
     | BREAK 
     | print_sintaxis
-    | error EOL		{ yyerrok;}
 ;
 data_type:  
     | INT                  
@@ -149,7 +168,7 @@ data_value:
     | LONG_VAL                 
     | FLOAT_VAL                 
     | CHAR_VAL                 
-    | data_type EOL
+    | data_type 
 ;
 
 function_argument:
@@ -161,38 +180,41 @@ function_arg_body:
     | function_arg_body SEPARATOR function_arg_body 
 ;
 
-for_sintaxis:FOR NAME IN INT_VAL RANGE INT_VAL OPEN_CLASP body_sintaxis CLOSE_CLASP                                         {printf(">> for correcto !! \n"); printf("> ");}
+for_sintaxis:FOR NAME IN INT_VAL RANGE INT_VAL OPEN_CLASP body_sintaxis CLOSE_CLASP                                        {printf(">> for correcto !! \n"); printf("> ");}
+
 ;
 while_sintaxis: WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL         {printf(">> while correcto !! \n"); printf("> ");}
+
 ;
 do_while_sintaxis: DO OPEN_CLASP body_sintaxis CLOSE_CLASP WHILE OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS EOL   {printf(">> do while correcto !! \n"); printf("> ");}
+
 ;
-else_sintaxis: ELSE OPEN_CLASP body_sintaxis CLOSE_CLASP
-    |   ELSE if_sintaxis
+else_sintaxis: ELSE OPEN_CLASP body_sintaxis CLOSE_CLASP EOL
+    |   ELSE if_sintaxis EOL
+
 ;
 
-if_sintaxis: IF OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP
-    |   if_sintaxis else_sintaxis
+if_sintaxis: IF OPEN_PARENTHESIS complex_condition CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL
+    |   if_sintaxis else_sintaxis EOL
+
 ;
 
-function_sintaxis: FUNCTION NAME OPEN_PARENTHESIS  function_arg_body CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP   {printf(">> function OK!! \n"); printf("> ");}
-    |  FUNCTION NAME OPEN_PARENTHESIS  function_arg_body CLOSE_PARENTHESIS RETURN data_type OPEN_CLASP body_sintaxis CLOSE_CLASP  {printf(">> function extended OK!! \n"); printf("> ");}
-    |  function_sintaxis EOL
+function_sintaxis: FUNCTION NAME OPEN_PARENTHESIS  function_arg_body CLOSE_PARENTHESIS OPEN_CLASP body_sintaxis CLOSE_CLASP EOL  {printf(">> function OK!! \n"); printf("> ");}
+    |  FUNCTION NAME OPEN_PARENTHESIS  function_arg_body CLOSE_PARENTHESIS RETURN data_type OPEN_CLASP body_sintaxis CLOSE_CLASP EOL {printf(">> function extended OK!! \n"); printf("> ");}
+
 ;
 
 
 return_sentence: RETURN NAME
-    | RETURN STRING_VAL
-    | RETURN INT_VAL
-    | RETURN LONG_VAL 
-    | RETURN CHAR_VAL
+    | RETURN data_value
 ;
-
 
 %%
 
+extern int yylineno;
+
 yyerror(char *s){
- fprintf(stderr, "Error: %s\n", s);
+    printf("Error '%s' '%d' \n", s,yylineno);
 }
 
 int yywrap(){
