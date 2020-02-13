@@ -1,0 +1,15 @@
+function tabla_multiplicar(){
+    var int result = 0
+    for a in 1 >> 9 {
+            printline("Tabla del ")
+            printline(a)
+        for b in 1 >> 9 {
+            result = a * b
+            printline(a)
+            printline("X")
+            printline(b)
+            printline(" = ")
+            printline(result)
+        }
+    }
+}
