@@ -4,7 +4,7 @@ function tabla_multiplicar(){
             printline("Tabla del ")
             printline(a)
         for b in 1 >> 9 {
-            result = a * b
+            result = a
             printline(a)
             printline("X")
             printline(b)
