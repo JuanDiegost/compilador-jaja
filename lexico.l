@@ -28,8 +28,8 @@ printline|PRINTLINE             {return PRINT;}
 [+]								{return PLUS;}
 [*]								{return PRODUCT;}
 [%]								{return MODULE;}
-[/]								{return DIVISION;}
-[/][\^]							{return POW;}
+[\/]							{return DIVISION;}
+[\/][\^]							{return POW;}
 
 [=][=]							{return COMPARATION;}//declaracion de los operadores logicos
 [!][=]							{return NOT;}
@@ -50,14 +50,14 @@ printline|PRINTLINE             {return PRINT;}
 
 BOOL|bool						{return BOOLEAN;}//declaracion de los tipos de datos
 INT|int							{return INT;}
-LNG|lng     					{return LONG;}
-FLT|flt    						{return FLOAT;}
+LNG|lng|long|LONG     			{return LONG;}
+FLT|flt|float|FLOAT    			{return FLOAT;}
 CHAR|char						{return CHAR;}
 VAR|var     					{return VAR;}
 CONST|const						{return CONST;}
 [-][>]|return					{return RETURN;}
 [\,]							{return SEPARATOR;}
-STR|str							{return STRING;}
+STR|str|string|STRING       	{return STRING;}
 
 [-]([0-9]{1,30})|([0-9]{1,30})	{return INT_VAL;}//declaracion de los valores
 true|false						{return BOOLEAN_VAL;}
@@ -80,6 +80,7 @@ int main(int argc,char *argv[]){
     }else{
         yyparse();
     }
-    fclose(yyin);
-    return 0;
+    fclose(yyin); 
+    printf("--------proceso finalizado---------\n");  
+    return 0;    
 }

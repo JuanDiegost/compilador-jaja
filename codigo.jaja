@@ -1,4 +1,70 @@
-do00 {   // --esdto es un comentario 
-    i =+ 1   
+
+//-------------------------------------------------------------------------------------
+//-------------------------------esto es un comentario de linea------------------------
+//-------------------------------------------------------------------------------------
+
+
+//-----------------------------------declaracion de variables---------------------------
+
+var str nombre = "manolo"
+var STRING nombre = "manolo"
+VAR ciudad = 'tunja'
+var bool esta_lloviendo = false
+bool esta_lloviendo = false
+
+char genero = 'M'
+var int valor = 123
+var lng  long_number = 131231231231231312312
+VAR flt float_number = 1,5
+
+//-----------------------------------declaracion de arreglos----------------------------
+
+const mejores_amigos[3] = []
+const ejemplos[16] =[{"juan"},{545,67},{234234234},{'T'}]
+enemigos [4] = [{"juan"},{"jose"},{"ismael"},{"noe"}]
+
+//---------------------------------declaracion de metodos reservados----------------------
+
+i = 0
+if (i <= 12){           //--------if-------
+    printline(i)
+    i++
+}
+
+if (i <= 12){           //--------if else
+    printline(i)
+    i++
+} else {
+    m = 0
+}
+
+if (i <= 12){           //--------if else if
+    printline(i)
+    i++
+} else if(u == 0){
+    m = 0
+}
+
+
+for i in 0 >>10 {       //--------for
+    printline(i)
+    break
+}
+
+do{                     //---------do while              
+    i =+ 1
+    i = i / 2   
 } while ( i < 10)
-manolo [2] = "sdfsdfsd"
+
+
+function guardar_persona (str: name, int: age){  //--------funcion simple
+    nombre = name
+    edad = edad
+    printline("se ha guardado con exito")
+}
+
+function guardar_persona () -> STRING {          //------funcion extendida
+    str resultado = "hola mundo"
+    -> resultado
+}
+
